@@ -81,7 +81,7 @@ public class Window_Graph : MonoBehaviour
     {
         float graphHeight = graphContainer.sizeDelta.y;
         float yMaximum = 450.0f;
-        float xSize = 30.0f;
+        float xSize = 35.0f;
 
         GameObject lastCircleGameObject = null;
 
@@ -127,8 +127,7 @@ public class Window_Graph : MonoBehaviour
                 lastCircleGameObject = circleGameObject;
             }
         }
-
-
+        
     }
 
     void CreateDotConnection(Vector2 dotPositionA, Vector2 dotPositionB)
