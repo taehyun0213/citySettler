@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using CodeMonkey.Utils;
 
-public class Window_Graph : MonoBehaviour
+public class Window_Graph_R : MonoBehaviour
 {
     [SerializeField] Sprite steelSprite;
     [SerializeField] Sprite goldSprite;
@@ -45,7 +45,7 @@ public class Window_Graph : MonoBehaviour
         gameObject.GetComponent<Image>().sprite = steelSprite;
         RectTransform rectTransform = gameObject.GetComponent<RectTransform>();
         rectTransform.anchoredPosition = anchoredPosition;
-        rectTransform.sizeDelta = new Vector2(30, 30);
+        rectTransform.sizeDelta = new Vector2(40, 40);
         rectTransform.anchorMin = new Vector2(0, 0);
         rectTransform.anchorMax = new Vector2(0, 0);
         return gameObject;
@@ -58,7 +58,7 @@ public class Window_Graph : MonoBehaviour
         gameObject.GetComponent<Image>().sprite = goldSprite;
         RectTransform rectTransform = gameObject.GetComponent<RectTransform>();
         rectTransform.anchoredPosition = anchoredPosition;
-        rectTransform.sizeDelta = new Vector2(30, 30);
+        rectTransform.sizeDelta = new Vector2(40, 40);
         rectTransform.anchorMin = new Vector2(0, 0);
         rectTransform.anchorMax = new Vector2(0, 0);
         return gameObject;
@@ -71,7 +71,7 @@ public class Window_Graph : MonoBehaviour
         gameObject.GetComponent<Image>().sprite = foodSprite;
         RectTransform rectTransform = gameObject.GetComponent<RectTransform>();
         rectTransform.anchoredPosition = anchoredPosition;
-        rectTransform.sizeDelta = new Vector2(30, 30);
+        rectTransform.sizeDelta = new Vector2(40, 40);
         rectTransform.anchorMin = new Vector2(0, 0);
         rectTransform.anchorMax = new Vector2(0, 0);
         return gameObject;
@@ -81,7 +81,7 @@ public class Window_Graph : MonoBehaviour
     {
         float graphHeight = graphContainer.sizeDelta.y;
         float yMaximum = 450.0f;
-        float xSize = 35.0f;
+        float xSize = 60.0f;
 
         GameObject lastCircleGameObject = null;
 
@@ -134,7 +134,7 @@ public class Window_Graph : MonoBehaviour
     {
         GameObject gameObject = new GameObject("dotConnection", typeof(Image));
         gameObject.transform.SetParent(graphContainer, false);
-        gameObject.GetComponent<Image>().color = new Color(1, 1, 1, 0.5f);
+        gameObject.GetComponent<Image>().color = new Color(0, 0, 0, 0.5f);
         RectTransform rectTransform = gameObject.GetComponent<RectTransform>();
         Vector2 dir = (dotPositionB - dotPositionA).normalized;
         float distance = Vector2.Distance(dotPositionA, dotPositionB);
@@ -144,5 +144,4 @@ public class Window_Graph : MonoBehaviour
         rectTransform.anchoredPosition = dotPositionA + dir * distance * .5f;
         rectTransform.localEulerAngles = new Vector3(0, 0, UtilsClass.GetAngleFromVectorFloat(dir));
     }
-
 }
