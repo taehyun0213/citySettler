@@ -5,7 +5,13 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public List<Buildings> buildingDatabase = new List<Buildings>();
-
+    public List<float> happinessLogs = new List<float>();
+    public List<float> wealthLogs = new List<float>();
+    public List<float> populationLogs = new List<float>();
+    public List<float> pollutionLogs = new List<float>();
+    public List<float> famineLogs = new List<float>();
+    public List<float> employmentLogs = new List<float>();
+    
     //These are the kinds of buildings, resources, etc,. currently players can have. 
     //If you compare this code with the GameManager's Inspector field, you will notice what this means very easily.
     [Header("[Buildings you want to run]")]
@@ -127,9 +133,7 @@ public class GameManager : MonoBehaviour
             }
         }
         if (doNotCal < _mine + _park + _smithy + _farm) { FactorsUpdate(); }          
-        else doNotCal = 0;
-
-        // 여기에 이번 라운드에 변경된 자원들을 리스트로 담아서 Graph 스트립트로 전송
+        else doNotCal = 0;        
     }
 
     // ★★★ Key algorithm of how this game calculate the indicators. ★★★
@@ -141,12 +145,12 @@ public class GameManager : MonoBehaviour
         {
             _pollution += building._pollution;
         }        
-        _wealth = ((_gold / 15) + (_mine / 20) + (_food / 25)) / 4;
+        _wealth = ((_gold / 15) + (_steel / 20) + (_food / 25)) / 4;
         _population = (_food / 2) / (_pollution * 5);
         _famine = (_population * 7) / _food + 1;
         _happiness = (_wealth + _employment) / (_famine + _pollution);
         _employment = _population_f / (_mine + _park + _smithy + _farm);
-
+               
         // calculate indicators
         if (_wealth < 0.3)
             _wealth_f -= 1;
@@ -190,9 +194,25 @@ public class GameManager : MonoBehaviour
 
         // sync pollution
         _pollution_f = _pollution;
+
+        // store log data
+        happinessLogs.Add(_happiness);
+        wealthLogs.Add(_wealth);
+        populationLogs.Add(_population);
+        pollutionLogs.Add(_pollution);
+        famineLogs.Add(_famine);
+        employmentLogs.Add(_employment);
+
+        // print log data
+        //foreach (float _happy in happinessLogs)
+        //{
+        //    int happy = (int)_happy;
+        //    print(happinessLogs[happy]);
+        //}
+
     }
 
-    //여기에 변경된 _f들을 모아서 Graph 스크립트로 전송
+    
 }
 
 

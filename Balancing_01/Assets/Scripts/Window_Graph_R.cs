@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,15 +12,27 @@ public class Window_Graph_R : MonoBehaviour
     [SerializeField] Sprite foodSprite;
 
     RectTransform graphContainer;
+    RectTransform labelTemplateX;
+    RectTransform labelTemplateY;
+    RectTransform dashTemplateX;
+    RectTransform dashTemplateY;
+
     GameManager _buildingDatabase;
 
     public List<int> steels = new List<int>();
     public List<int> golds = new List<int>();
     public List<int> foods = new List<int>();
 
+    int maxRun = 0;
+
     private void Awake()
     {
         graphContainer = transform.Find("graphContainer").GetComponent<RectTransform>();
+        labelTemplateX = graphContainer.Find("labelTemplateX").GetComponent<RectTransform>();
+        labelTemplateY = graphContainer.Find("labelTemplateY").GetComponent<RectTransform>();
+        dashTemplateX = graphContainer.Find("dashTemplateX").GetComponent<RectTransform>();
+        dashTemplateY = graphContainer.Find("dashTemplateY").GetComponent<RectTransform>();
+        
         _buildingDatabase = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
@@ -27,14 +40,23 @@ public class Window_Graph_R : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            _buildingDatabase.Running();
-            // 변경상황 그래프로 출력
-            steels.Add(_buildingDatabase._steel);
-            ShowGraph(steels);
-            golds.Add(_buildingDatabase._gold);
-            ShowGraph(golds);
-            foods.Add(_buildingDatabase._food);
-            ShowGraph(foods);
+            maxRun++;
+
+            if (maxRun <= 51)
+            {
+                _buildingDatabase.Running();
+
+                steels.Add(_buildingDatabase._steel);
+                ShowGraph(steels);
+                golds.Add(_buildingDatabase._gold);
+                ShowGraph(golds);
+                foods.Add(_buildingDatabase._food);
+                ShowGraph(foods);
+            }
+            else
+            {
+                Debug.Log("You cannot run the rounds more than 51!");
+            }
         }
     }
 
@@ -77,11 +99,21 @@ public class Window_Graph_R : MonoBehaviour
         return gameObject;
     }
 
-    void ShowGraph(List<int> valueList)
+    void ShowGraph(List<int> valueList, Func<int, string> getAxisLabelX = null, Func<float, string> getAxisLabelY= null)
     {
+        if(getAxisLabelX == null)
+        {
+            getAxisLabelX = delegate (int _i) { return _i.ToString(); };
+        }
+
+        if (getAxisLabelY == null)
+        {
+            getAxisLabelY = delegate (float _f) { return Mathf.RoundToInt(_f).ToString(); };
+        }
+
         float graphHeight = graphContainer.sizeDelta.y;
-        float yMaximum = 450.0f;
-        float xSize = 60.0f;
+        float yMaximum = 500.0f;
+        float xSize = 60.0f;        
 
         GameObject lastCircleGameObject = null;
 
@@ -97,6 +129,33 @@ public class Window_Graph_R : MonoBehaviour
                     CreateDotConnection(lastCircleGameObject.GetComponent<RectTransform>().anchoredPosition, circleGameObject.GetComponent<RectTransform>().anchoredPosition);
                 }
                 lastCircleGameObject = circleGameObject;
+
+                RectTransform labelX = Instantiate(labelTemplateX);
+                labelX.SetParent(graphContainer);
+                labelX.gameObject.SetActive(true);
+                labelX.anchoredPosition = new Vector2(xPosition, -20f);
+                labelX.GetComponent<Text>().text = getAxisLabelX(i + 1);
+
+                RectTransform dashX = Instantiate(dashTemplateX);
+                dashX.SetParent(graphContainer);
+                dashX.gameObject.SetActive(true);
+                dashX.anchoredPosition = new Vector2(xPosition, -20f);
+            }
+
+            int separatorCount = 20;
+            for (int i = 0; i <= separatorCount; i++)
+            {
+                RectTransform labelY = Instantiate(labelTemplateY);
+                labelY.SetParent(graphContainer);
+                labelY.gameObject.SetActive(true);
+                float normalizedValue = i * 1f / separatorCount;
+                labelY.anchoredPosition = new Vector2(-7f, normalizedValue * graphHeight);
+                labelY.GetComponent<Text>().text = getAxisLabelY(normalizedValue * yMaximum);
+
+                RectTransform dashY = Instantiate(dashTemplateY);
+                dashY.SetParent(graphContainer);
+                dashY.gameObject.SetActive(true);
+                dashY.anchoredPosition = new Vector2(-4f, normalizedValue * graphHeight);
             }
         }
         else if (valueList == golds)
