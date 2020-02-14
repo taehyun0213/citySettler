@@ -164,7 +164,7 @@ public class Window_Graph_R : MonoBehaviour
             {
                 float xPosition = xSize + i * xSize;
                 float yPosition = (valueList[i] / yMaximum) * graphHeight;
-                GameObject circleGameObject = CreateGold(new Vector2(xPosition, yPosition / 1.5f));
+                GameObject circleGameObject = CreateGold(new Vector2(xPosition, (yPosition / 1.5f) + 10));
                 if (lastCircleGameObject != null)
                 {
                     CreateDotConnection(lastCircleGameObject.GetComponent<RectTransform>().anchoredPosition, circleGameObject.GetComponent<RectTransform>().anchoredPosition);
