@@ -5,12 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public List<Buildings> buildingDatabase = new List<Buildings>();
-    public List<float> happinessLogs = new List<float>();
-    public List<float> wealthLogs = new List<float>();
-    public List<float> populationLogs = new List<float>();
-    public List<float> pollutionLogs = new List<float>();
-    public List<float> famineLogs = new List<float>();
-    public List<float> employmentLogs = new List<float>();
+
     
     //These are the kinds of buildings, resources, etc,. currently players can have. 
     //If you compare this code with the GameManager's Inspector field, you will notice what this means very easily.
@@ -35,7 +30,14 @@ public class GameManager : MonoBehaviour
     public float _famine_f;     //(invisible to players)
     public float _employment_f; //(invisible to players)
 
-    //These will not be visible to players. These are variables for the algorithms to calculate indicators.
+    [Header("[Algorithm Logs]")]
+    public List<float> happinessLogs = new List<float>();
+    public List<float> wealthLogs = new List<float>();
+    public List<float> populationLogs = new List<float>();
+    public List<float> pollutionLogs = new List<float>();
+    public List<float> famineLogs = new List<float>();
+    public List<float> employmentLogs = new List<float>();
+
     [Header("[Algorithm]")]
     public float _happiness;
     public float _wealth;
@@ -194,6 +196,11 @@ public class GameManager : MonoBehaviour
 
         // sync pollution
         _pollution_f = _pollution;
+
+        if (_population_f <= 2)
+        {
+            _population_f = 2;
+        }
 
         // store log data
         happinessLogs.Add(_happiness);
