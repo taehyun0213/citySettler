@@ -123,7 +123,7 @@ public class Window_Graph_R : MonoBehaviour
             {
                 float xPosition = xSize + i * xSize;
                 float yPosition = (valueList[i] / yMaximum) * graphHeight;
-                GameObject circleGameObject = CreateSteel(new Vector2(xPosition, yPosition / 1.5f));
+                GameObject circleGameObject = CreateSteel(new Vector2(xPosition, yPosition));
                 if (lastCircleGameObject != null)
                 {
                     CreateDotConnection(lastCircleGameObject.GetComponent<RectTransform>().anchoredPosition, circleGameObject.GetComponent<RectTransform>().anchoredPosition);
@@ -133,13 +133,13 @@ public class Window_Graph_R : MonoBehaviour
                 RectTransform labelX = Instantiate(labelTemplateX);
                 labelX.SetParent(graphContainer);
                 labelX.gameObject.SetActive(true);
-                labelX.anchoredPosition = new Vector2(xPosition, -20f);
+                labelX.anchoredPosition = new Vector2(xPosition, -40f);
                 labelX.GetComponent<Text>().text = getAxisLabelX(i + 1);
 
                 RectTransform dashX = Instantiate(dashTemplateX);
                 dashX.SetParent(graphContainer);
                 dashX.gameObject.SetActive(true);
-                dashX.anchoredPosition = new Vector2(xPosition, -20f);
+                dashX.anchoredPosition = new Vector2(xPosition, 0f);
             }
 
             int separatorCount = 20;
@@ -164,7 +164,7 @@ public class Window_Graph_R : MonoBehaviour
             {
                 float xPosition = xSize + i * xSize;
                 float yPosition = (valueList[i] / yMaximum) * graphHeight;
-                GameObject circleGameObject = CreateGold(new Vector2(xPosition, (yPosition / 1.5f) + 10));
+                GameObject circleGameObject = CreateGold(new Vector2(xPosition, yPosition));
                 if (lastCircleGameObject != null)
                 {
                     CreateDotConnection(lastCircleGameObject.GetComponent<RectTransform>().anchoredPosition, circleGameObject.GetComponent<RectTransform>().anchoredPosition);
@@ -178,7 +178,7 @@ public class Window_Graph_R : MonoBehaviour
             {
                 float xPosition = xSize + i * xSize;
                 float yPosition = (valueList[i] / yMaximum) * graphHeight;
-                GameObject circleGameObject = CreateFood(new Vector2(xPosition, yPosition / 1.5f));
+                GameObject circleGameObject = CreateFood(new Vector2(xPosition, yPosition));
                 if (lastCircleGameObject != null)
                 {
                     CreateDotConnection(lastCircleGameObject.GetComponent<RectTransform>().anchoredPosition, circleGameObject.GetComponent<RectTransform>().anchoredPosition);
